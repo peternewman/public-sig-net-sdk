@@ -139,7 +139,7 @@ endif()
 # Self-test executable
 # ---------------------------------------------------------------------------
 add_executable(sig-net-selftest
-    sig-net-self-test-cli/sig-net-selftest-main.cpp
+    sig-net-self-test-cli/SelfTestResultsCLI.cpp
     sig-net-selftest.cpp
     sig-net-selftest.hpp
 )
