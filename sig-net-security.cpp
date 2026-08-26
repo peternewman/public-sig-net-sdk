@@ -251,7 +251,7 @@ int32_t CalculateAndEncodeHMAC(
 
     std::stringstream key_ss;
     key_ss << std::hex;
-    for (int i = 0; i < sizeof(sender_key); ++i) {
+    for (int i = 0; i < DERIVED_KEY_LENGTH; ++i) {
         key_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(sender_key[i]) << " ";
     }
     printf("Key:\n%s\n", key_ss.str().c_str());
