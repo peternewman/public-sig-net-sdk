@@ -441,7 +441,7 @@ void TestSendModule(TestSuiteResults& results) {
     {
 // 2. Derive the sender key
 uint8_t sender_key[32];
-if (Crypto::DeriveSenderKey(TEST_K0, sender_key) != SIGNET_SUCCESS) { /* handle error */ }
+if (Crypto::DeriveSenderKey((const uint8_t*)TEST_K0, sender_key) != SIGNET_SUCCESS) { /* handle error */ }
 
 // 3. Build a DMX Level packet
 uint8_t  dmx_data[512];
