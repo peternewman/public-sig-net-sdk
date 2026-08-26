@@ -527,6 +527,21 @@ void TestRejectionPaths(TestSuiteResults& results) {
             expected_ks, 32);
         uint8_t ks[32];
         int32_t rc = Crypto::DeriveSenderKey(expected_k0, ks);
+
+        std::stringstream ks_ss;
+        ks_ss << std::hex;
+        for (int i = 0; i < DERIVED_KEY_LENGTH; ++i) {
+            ks_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(ks[i]) << " ";
+        }
+        printf("Ks:          %s\n", ks_ss.str().c_str());
+
+        std::stringstream expected_ks_ss;
+        expected_ks_ss << std::hex;
+        for (int i = 0; i < DERIVED_KEY_LENGTH; ++i) {
+            expected_ks_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(expected_ks[i]) << " ";
+        }
+        printf("Expected Ks: %s\n", expected_ks_ss.str().c_str());
+        
         bool passed = ok && k0_ok && (rc == SIGNET_SUCCESS) &&
                       (memcmp(ks, expected_ks, 32) == 0);
         AddTestResult(results, "Crypto: HKDF Sender Key README v0.5 vector",
