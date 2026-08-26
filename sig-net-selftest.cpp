@@ -128,17 +128,17 @@ void TestCryptoModule(TestSuiteResults& results) {
         };
 
         std::stringstream hmac_ss;
-        hmac_ss << std::hex << std::setfill('0');
+        hmac_ss << std::hex;
         for (int i = 0; i < sizeof(hmac); ++i) {
-            hmac_ss << std::setw(2) << static_cast<unsigned>(hmac[i]);
+            hmac_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(hmac[i]) << " ";
         }
-        printf("Calculated: %s\n", hmac_ss.str());
+        printf("Calculated: %s\n", hmac_ss.str().c_str());
         std::stringstream expected_ss;
-        expected_ss << std::hex << std::setfill('0');
+        expected_ss << std::hex;
         for (int i = 0; i < sizeof(expected); ++i) {
-            expected_ss << std::setw(2) << static_cast<unsigned>(expected[i]);
+            expected_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(expected[i]) << " ";
         }
-        printf("Expected: %s\n", expected_ss.str());
+        printf("Expected: %s\n", expected_ss.str().c_str());
         
         bool passed = (result == SIGNET_SUCCESS) && 
                       (memcmp(hmac, expected, 32) == 0);
@@ -463,12 +463,13 @@ int32_t result = BuildDMXPacket(
     sender_key,
     1             // CoAP message ID
 );
+        
         std::stringstream buffer_ss;
-        buffer_ss << std::hex << std::setfill('0');
+        buffer_ss << std::hex;
         for (int i = 0; i < buffer.GetSize(); ++i) {
-            buffer_ss << std::setw(2) << static_cast<unsigned>(buffer.GetBuffer()[i]);
+            buffer_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(buffer.GetBuffer()[i]) << " ";
         }
-        printf("Buffer: %s\n", buffer_ss.str());
+        printf("Buffer: %s\n", buffer_ss.str().c_str());
         
         bool passed = true;
         AddTestResult(results, "Send: BuildDMXPacket",
