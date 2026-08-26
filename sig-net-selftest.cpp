@@ -128,13 +128,13 @@ void TestCryptoModule(TestSuiteResults& results) {
         };
 
         std::stringstream hmac_ss;
-        ss << std::hex << std::setfill('0');
+        hmac_ss << std::hex << std::setfill('0');
         for (int i = 0; i < sizeof(hmac); ++i) {
             hmac_ss << std::setw(2) << static_cast<unsigned>(hmac[i]);
         }
         printf("Calculated: %s\n", hmac_ss.str());
         std::stringstream expected_ss;
-        ss << std::hex << std::setfill('0');
+        expected_ss << std::hex << std::setfill('0');
         for (int i = 0; i < sizeof(expected); ++i) {
             expected_ss << std::setw(2) << static_cast<unsigned>(expected[i]);
         }
