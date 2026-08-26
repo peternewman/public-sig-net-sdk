@@ -248,6 +248,13 @@ int32_t CalculateAndEncodeHMAC(
         hmac_buffer_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(hmac_input[i]) << " ";
     }
     printf("HMAC Buffer:\n%s\n", hmac_buffer_ss.str().c_str());
+
+    std::stringstream key_ss;
+    key_ss << std::hex;
+    for (int i = 0; i < sizeof(sender_key); ++i) {
+        key_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(sender_key[i]) << " ";
+    }
+    printf("Key:\n%s\n", key_ss.str().c_str());
     
     // Calculate HMAC-SHA256
     result = Crypto::HMAC_SHA256(
