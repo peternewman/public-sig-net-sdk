@@ -11,6 +11,8 @@
 #include "sig-net-security.hpp"
 #include "sig-net-send.hpp"
 #include "sig-net-parse.hpp"   // for Parse::PacketReader, ParseCoAPHeader, etc.
+#include <sstream>
+#include <iomanip>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -124,6 +126,19 @@ void TestCryptoModule(TestSuiteResults& results) {
             0x88, 0x1D, 0xC2, 0x00, 0xC9, 0x83, 0x3D, 0xA7,
             0x26, 0xE9, 0x37, 0x6C, 0x2E, 0x32, 0xCF, 0xF7
         };
+
+        std::stringstream hmac_ss;
+        ss << std::hex << std::setfill('0');
+        for (int i = 0; i < sizeof(hmac); ++i) {
+            hmac_ss << std::setw(2) << static_cast<unsigned>(hmac[i]);
+        }
+        printf("Calculated: %s\n", hmac_ss.str());
+        std::stringstream expected_ss;
+        ss << std::hex << std::setfill('0');
+        for (int i = 0; i < sizeof(expected); ++i) {
+            expected_ss << std::setw(2) << static_cast<unsigned>(expected[i]);
+        }
+        printf("Expected: %s\n", expected_ss.str());
         
         bool passed = (result == SIGNET_SUCCESS) && 
                       (memcmp(hmac, expected, 32) == 0);
