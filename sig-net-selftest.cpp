@@ -445,7 +445,7 @@ if (Crypto::DeriveSenderKey(TEST_K0, sender_key) != SIGNET_SUCCESS) { /* handle 
 
 // 3. Build a DMX Level packet
 uint8_t  dmx_data[512];
-memset(dmx_buffer, 0, sizeof(dmx_buffer));
+memset(dmx_data, 0, sizeof(dmx_buffer));
 uint32_t session_id     = 1;   // persist across reboots
 uint32_t seq_num        = 1;   // auto-incremented each send
 
@@ -455,7 +455,7 @@ int32_t result = BuildDMXPacket(
     517,          // universe
     dmx_data,
     512,          // slot count
-    TEST_TUID,
+    (const uint8_t*)TEST_TUID,
     1,            // endpoint
     0x0000,       // manufacturer code (0 = standard)
     session_id,
