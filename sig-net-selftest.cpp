@@ -20,6 +20,24 @@
 namespace SigNet {
 namespace SelfTest {
 
+namespace {
+    int HexNibbleVal(char c) {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
+        if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
+        return -1;
+    }
+    bool HexDecode(const char* hex, uint8_t* out, size_t out_len) {
+        for (size_t i = 0; i < out_len; ++i) {
+            int hi = HexNibbleVal(hex[2*i]);
+            int lo = HexNibbleVal(hex[2*i + 1]);
+            if (hi < 0 || lo < 0) return false;
+            out[i] = static_cast<uint8_t>((hi << 4) | lo);
+        }
+        return true;
+    }
+}
+
 //==============================================================================
 // Test Result Structure Implementation
 //==============================================================================
@@ -490,24 +508,6 @@ int32_t result = BuildDMXPacket(
 //==============================================================================
 // Rejection-path + README v0.5 known-vector tests
 //==============================================================================
-
-namespace {
-    int HexNibbleVal(char c) {
-        if (c >= '0' && c <= '9') return c - '0';
-        if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
-        if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
-        return -1;
-    }
-    bool HexDecode(const char* hex, uint8_t* out, size_t out_len) {
-        for (size_t i = 0; i < out_len; ++i) {
-            int hi = HexNibbleVal(hex[2*i]);
-            int lo = HexNibbleVal(hex[2*i + 1]);
-            if (hi < 0 || lo < 0) return false;
-            out[i] = static_cast<uint8_t>((hi << 4) | lo);
-        }
-        return true;
-    }
-}
 
 void TestRejectionPaths(TestSuiteResults& results) {
     // Pin the SDK against the README v0.5 PBKDF2 + HKDF chain.
