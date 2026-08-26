@@ -439,7 +439,7 @@ void TestSendModule(TestSuiteResults& results) {
     }
 
     {
-        print("Full test packet\n");
+        printf("Full test packet\n");
 // 2. Derive the sender key
 uint8_t sender_key[32];
 if (Crypto::DeriveSenderKey((const uint8_t*)TEST_K0, sender_key) != SIGNET_SUCCESS) { /* handle error */ }
