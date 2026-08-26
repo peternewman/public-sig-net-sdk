@@ -502,6 +502,7 @@ namespace {
 }
 
 void TestRejectionPaths(TestSuiteResults& results) {
+    {
     // Pin the SDK against the README v0.5 PBKDF2 + HKDF chain.
     uint8_t expected_k0[32];
     bool k0_ok = HexDecode(SigNet::TEST_K0, expected_k0, 32);
@@ -518,7 +519,7 @@ void TestRejectionPaths(TestSuiteResults& results) {
         "Crypto: PBKDF2 README v0.5 vector (Ge2p$E$4*A -> 52fcc2e7…)",
         pbkdf2_match,
         pbkdf2_match ? "" : "K0 derivation does not match the documented vector");
-
+    }
     {
         uint8_t expected_ks[32];
         bool ok = HexDecode(
