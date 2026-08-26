@@ -239,6 +239,13 @@ int32_t CalculateAndEncodeHMAC(
     if (result != SIGNET_SUCCESS) {
         return result;
     }
+
+    std::stringstream hmac_buffer_ss;
+    hmac_buffer_ss << std::hex;
+    for (int i = 0; i < hmac_input_len; ++i) {
+        hmac_buffer_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(hmac_input[i]) << " ";
+    }
+    printf("HMAC Buffer:\n%s\n", hmac_buffer_ss.str().c_str());
     
     // Calculate HMAC-SHA256
     result = Crypto::HMAC_SHA256(
@@ -248,6 +255,13 @@ int32_t CalculateAndEncodeHMAC(
         hmac_input_len,
         options.hmac
     );
+
+    std::stringstream hmac_ss;
+    hmac_ss << std::hex;
+    for (int i = 0; i < sizeof(options.hmac); ++i) {
+        hmac_ss << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(options.hmac[i]) << " ";
+    }
+    printf("HMAC:\n%s\n", hmac_ss.str().c_str());
 
     SecureZero(hmac_input, sizeof(hmac_input));
     
