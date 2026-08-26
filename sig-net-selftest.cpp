@@ -437,6 +437,44 @@ void TestSendModule(TestSuiteResults& results) {
         AddTestResult(results, "Send: Extract IPv4 Token",
                       passed, passed ? "" : "IPv4 token extraction failed");
     }
+
+    {
+// 2. Derive the sender key
+uint8_t sender_key[32];
+if (Crypto::DeriveSenderKey(TEST_K0, sender_key) != SIGNET_SUCCESS) { /* handle error */ }
+
+// 3. Build a DMX Level packet
+uint8_t  dmx_data[512];
+memset(dmx_buffer, 0, sizeof(dmx_buffer));
+uint32_t session_id     = 1;   // persist across reboots
+uint32_t seq_num        = 1;   // auto-incremented each send
+
+PacketBuffer buffer;
+int32_t result = BuildDMXPacket(
+    buffer,
+    517,          // universe
+    dmx_data,
+    512,          // slot count
+    TEST_TUID,
+    1,            // endpoint
+    0x0000,       // manufacturer code (0 = standard)
+    session_id,
+    seq_num,
+    sender_key,
+    1             // CoAP message ID
+);
+        std::stringstream buffer_ss;
+        buffer_ss << std::hex << std::setfill('0');
+        for (int i = 0; i < buffer.GetSize(); ++i) {
+            buffer_ss << std::setw(2) << static_cast<unsigned>(buffer.GetBuffer()[i]);
+        }
+        printf("Buffer: %s\n", buffer_ss.str());
+        
+        bool passed = true;
+        AddTestResult(results, "Send: BuildDMXPacket",
+                      passed, passed ? "" : "Packet building failed");
+    }
+
 }
 
 //==============================================================================
