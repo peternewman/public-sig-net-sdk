@@ -32,6 +32,8 @@
 
 #include "sig-net-security.hpp"
 #include <string.h>
+#include <sstream>
+#include <iomanip>
 
 namespace SigNet {
 namespace Security {
